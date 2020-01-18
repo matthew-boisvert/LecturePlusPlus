@@ -24,7 +24,7 @@ peer.on('open', function (id) {
     //     lastPeerId = peer.id;
     // }
 
-    console.log('ID: ' + peer.id);
+    betterLog('ID: ' + peer.id);
     // if (role === 'student') {
     if (hashID) initializeConnection(hashID);
     // } else {
@@ -88,7 +88,7 @@ function sendMsg(msg) {
 
 function initializeQR(peerId) {
 
-    console.log("Peer ID: " + peerId);
+    betterLog("Peer ID: " + peerId);
     $('#my-qr').html("Peer ID: " + peerId);
 
     new QRCode(document.getElementById("my-qr"),
@@ -97,6 +97,6 @@ function initializeQR(peerId) {
 }
 
 function betterLog(text1, text2) {
-    $('body').append(text1).append(text2);
+    $('body').append(text1).append(", ").append(text2).append(document.createElement("br"));
 };
 },{}]},{},[1]);
