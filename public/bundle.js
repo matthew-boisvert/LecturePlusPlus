@@ -92,7 +92,7 @@ function initializeQR(peerId) {
     $('#my-qr').html("Peer ID: " + peerId);
 
     new QRCode(document.getElementById("my-qr"),
-        "http://169.233.126.117:8080#" + peerId);
+        "https://matthew-boisvert.github.io/CruzHacks/public/index.html#" + peerId);
     //https://people.ucsc.edu/~rykaande/
 }
 
