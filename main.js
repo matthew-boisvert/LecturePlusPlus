@@ -11,5 +11,6 @@ function initialize(ip) {
     console.log(ip);
     $('#my-qr').html(ip);
 
-    new QRCode(document.getElementById("my-qr"), "http://jindo.dev.naver.com/collie");
+    new QRCode(document.getElementById("my-qr"), 
+    "https://people.ucsc.edu/~rykaande/?connectWith="+ip);
 }
