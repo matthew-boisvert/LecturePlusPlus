@@ -1,0 +1,26 @@
+{
+  "name": "cruzhacks",
+  "version": "1.0.0",
+  "description": "How to run:",
+  "main": "main.js",
+  "dependencies": {
+    "simple-peer": "^9.6.2",
+    "watch": "^1.0.2",
+    "watchify": "^3.11.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "npx watchify ./public/main.js -o ./public/bundle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matthew-boisvert/CruzHacks.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matthew-boisvert/CruzHacks/issues"
+  },
+  "homepage": "https://github.com/matthew-boisvert/CruzHacks#readme"
+}
