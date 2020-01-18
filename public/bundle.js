@@ -1,4 +1,8 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+var submitButtonElement = document.getElementById('submit');
+var messageInputElement = document.getElementById('message');
+var messageFormElement = document.getElementById('message-form');
+
 var initialized = false; // this boolean flag is used so we don't trigger the intialize function twice.
 
 var hashID = null; role = 'prof';
@@ -137,4 +141,38 @@ function randomEmoji() {
     return possibleEmojis[randomIndex];
 }
 const emoji = randomEmoji();
+
+
+// Triggered when the send new message form is submitted.
+function onMessageFormSubmit(e) {
+    e.preventDefault();
+    // Check that the user entered a message 
+    if (messageInputElement.value) {
+      //saveMessage(messageInputElement.value).then(function() {
+        // TODO send our message through P2P! And then execute the code below in a callback (idk how that will work)
+        // Clear message text field and re-enable the SEND button.
+        resetMaterialTextfield(messageInputElement);
+        toggleButton();
+      //});
+    }
+  }
+
+  function toggleButton() {
+    if (messageInputElement.value) {
+      submitButtonElement.removeAttribute('disabled');
+    } else {
+      submitButtonElement.setAttribute('disabled', 'true');
+    }
+  }
+
+// Resets the given MaterialTextField.
+function resetMaterialTextfield(element) {
+    element.value = '';
+    element.parentNode.MaterialTextfield.boundUpdateClassesHandler();
+}
+
+
+messageFormElement.addEventListener('submit', onMessageFormSubmit);
+messageInputElement.addEventListener('keyup', toggleButton);
+messageInputElement.addEventListener('change', toggleButton);
 },{}]},{},[1]);

@@ -1,3 +1,7 @@
+var submitButtonElement = document.getElementById('submit');
+var messageInputElement = document.getElementById('message');
+var messageFormElement = document.getElementById('message-form');
+
 var initialized = false; // this boolean flag is used so we don't trigger the intialize function twice.
 
 var hashID = null; role = 'prof';
@@ -136,3 +140,37 @@ function randomEmoji() {
     return possibleEmojis[randomIndex];
 }
 const emoji = randomEmoji();
+
+
+// Triggered when the send new message form is submitted.
+function onMessageFormSubmit(e) {
+    e.preventDefault();
+    // Check that the user entered a message 
+    if (messageInputElement.value) {
+      //saveMessage(messageInputElement.value).then(function() {
+        // TODO send our message through P2P! And then execute the code below in a callback (idk how that will work)
+        // Clear message text field and re-enable the SEND button.
+        resetMaterialTextfield(messageInputElement);
+        toggleButton();
+      //});
+    }
+  }
+
+  function toggleButton() {
+    if (messageInputElement.value) {
+      submitButtonElement.removeAttribute('disabled');
+    } else {
+      submitButtonElement.setAttribute('disabled', 'true');
+    }
+  }
+
+// Resets the given MaterialTextField.
+function resetMaterialTextfield(element) {
+    element.value = '';
+    element.parentNode.MaterialTextfield.boundUpdateClassesHandler();
+}
+
+
+messageFormElement.addEventListener('submit', onMessageFormSubmit);
+messageInputElement.addEventListener('keyup', toggleButton);
+messageInputElement.addEventListener('change', toggleButton);
