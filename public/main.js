@@ -100,10 +100,10 @@ function startListening(conn) {
 
 function sendMsg(msg) {
     console.log("connections: ", connections);
+    displayMessage(Math.random(), 0, "une banane", msg); //(id, timestamp, name, text)
     for (var i = 0; i < connections.length; i++) {
         const conn = connections[i];
         console.log("call sendmsg ", conn);
-        displayMessage(Math.random(), 0, "une banane", msg); //(id, timestamp, name, text)
         if (conn != null) {
             console.log("conn: ", conn);
             conn.send(msg);
