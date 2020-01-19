@@ -2,10 +2,20 @@
 var submitButtonElement = document.getElementById('submit');
 var messageInputElement = document.getElementById('message');
 var messageFormElement = document.getElementById('message-form');
+var messageListElement = document.getElementById('messages');
+
 
 var initialized = false; // this boolean flag is used so we don't trigger the intialize function twice.
 
 var hashID = null; role = 'prof';
+
+// Template for messages.
+var MESSAGE_TEMPLATE =
+    '<div class="message-container">' +
+      '<div class="spacing"><div class="pic"></div></div>' +
+      '<div class="message"></div>' +
+      '<div class="name"></div>' +
+    '</div>';
 
 if (window.location.hash.length > 1) { // check if the url contains a hash
     hashID = window.location.hash.substr(1, window.location.hash.length - 1);
@@ -82,7 +92,8 @@ function initializeConnection(targetId) {
 peer.on('connection', function (conn) {
     conn.on('data', function (data) {
         // Will print 'hi!'
-        betterLog(data);
+        // betterLog(data);
+        displayMessage(0, 0, "banane", data); /////(id, timestamp, name, text)
     });
 });
 
@@ -171,6 +182,62 @@ function resetMaterialTextfield(element) {
     element.parentNode.MaterialTextfield.boundUpdateClassesHandler();
 }
 
+function displayMessage(id, timestamp, name, text) {
+    var div = document.getElementById(id) || createAndInsertMessage(id, timestamp);
+  
+    div.querySelector('.name').textContent = name;
+    var messageElement = div.querySelector('.message');
+  
+    if (text) { // If the message is text.
+      messageElement.textContent = text;
+      // Replace all line breaks by <br>.
+      messageElement.innerHTML = messageElement.innerHTML.replace(/\n/g, '<br>');
+    }
+    // Show the card fading-in and scroll to view the new message.
+    setTimeout(function() {div.classList.add('visible')}, 1);
+    messageListElement.scrollTop = messageListElement.scrollHeight;
+    messageInputElement.focus();
+  }
+
+  function createAndInsertMessage(id, timestamp) {
+    const container = document.createElement('div');
+    container.innerHTML = MESSAGE_TEMPLATE;
+    const div = container.firstChild;
+    div.setAttribute('id', id);
+  
+    // If timestamp is null, assume we've gotten a brand new message.
+    // https://stackoverflow.com/a/47781432/4816918
+    timestamp = timestamp ? timestamp.toMillis() : Date.now();
+    div.setAttribute('timestamp', timestamp);
+  
+    // figure out where to insert new message
+    const existingMessages = messageListElement.children;
+    if (existingMessages.length === 0) {
+      messageListElement.appendChild(div);
+    } else {
+      let messageListNode = existingMessages[0];
+  
+      while (messageListNode) {
+        const messageListNodeTime = messageListNode.getAttribute('timestamp');
+  
+        if (!messageListNodeTime) {
+          throw new Error(
+            `Child ${messageListNode.id} has no 'timestamp' attribute`
+          );
+        }
+  
+        if (messageListNodeTime > timestamp) {
+          break;
+        }
+  
+        messageListNode = messageListNode.nextSibling;
+      }
+  
+      messageListElement.insertBefore(div, messageListNode);
+    }
+  
+    return div;
+  }
 
 messageFormElement.addEventListener('submit', onMessageFormSubmit);
 messageInputElement.addEventListener('keyup', toggleButton);
