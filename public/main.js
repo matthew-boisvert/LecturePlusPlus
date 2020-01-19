@@ -7,6 +7,7 @@ var messageFormElement = document.getElementById('message-form');
 var messageListElement = document.getElementById('messages');
 
 var hashID = null; role = 'prof';
+const myEmoji = utils.randomEmoji();
 
 // var conn;
 var connections = [];
@@ -89,26 +90,75 @@ peer.on('connection', function (_conn) {
 });
 
 function startListening(conn) {
-    // console.log(conn);
+    console.log("beginning to listen")
+    console.log(conn);
     conn.on('data', function (data) {
+        // console.log();
+        console.log("RECEIVED DATA: ", data);
         // Will print 'hi!'
         // utils.betterLog(data);
-        displayMessage(Math.random(), 0, "banane", data); /////(id, timestamp, name, text)
-        console.log("received message ", data);
+        dataObj = JSON.parse(data);
+        console.log("OBJ FORM: ", dataObj);
+
+        displayMessage(dataObj.msgId, dataObj.timestamp, dataObj.senderName, dataObj.message); /////(id, timestamp, name, text)
+        // console.log("received message ", data);
+        //msgId, timestamp, senderName, message
+
+
     });
 }
 
-function sendMsg(msg) {
+function sendMsgAll(msg) {
     console.log("connections: ", connections);
-    displayMessage(Math.random(), 0, "une banane", msg); //(id, timestamp, name, text)
+    displayMessage(Math.random(), 0, myEmoji, msg); //(id, timestamp, name, text)
     for (var i = 0; i < connections.length; i++) {
-        const conn = connections[i];
-        console.log("call sendmsg ", conn);
-        if (conn != null) {
-            console.log("conn: ", conn);
-            conn.send(msg);
-            console.log("Just sent message ", msg);
-        }
+        sendMsg(msg, connections[i]);
+    }
+}
+
+function sendMsgAllExceptOne(msg, conn) {
+    console.log("connections: ", connections);
+    displayMessage(Math.random(), 0, myEmoji, msg); //(id, timestamp, name, text)
+    for (var i = 0; i < connections.length; i++) {
+        if(conn != connections[i]) sendMsg(msg, connections[i]);
+    }
+}
+
+function sendMsg(msg, conn) {
+    console.log("call sendmsg ", conn);
+    if (conn != null) {
+        console.log("conn: ", conn);
+        console.log("Just sent message ", msg);
+
+        const toSend = {
+            msgId: Math.random(),
+            timestamp: 0,
+            senderName: "a_sender",
+            message: msg
+        };
+
+        var jsonSend = JSON.stringify(toSend);
+        // jsonSend = jsonSend.replace(/"/g, '@');
+
+        console.log("I want to send the message: ",jsonSend);
+        conn.send(jsonSend); //TODO uncomment
+        // conn.send(jsonSend); //TODO uncomment
+        // for(var i=0; i<jsonSend.length; i++) {
+        //     conn.send(jsonSend[i]);
+        // }
+        // const pt = 16; //20 NO, 18NO , 17=BINARY THING
+        // conn.send(jsonSend.substring(0, pt));
+        // console.log("sent ", jsonSend.substring(0, pt));
+        // conn.send(jsonSend.substring(pt, jsonSend.length));
+        // console.log("sent ", jsonSend.substring(pt, jsonSend.length));
+
+
+        //conn.send("This isn't right");
+        //reee
+
+         //msgId, timestamp, senderName, message
+
+
     }
 }
 
@@ -135,7 +185,7 @@ function onMessageFormSubmit(e) {
     // Check that the user entered a message
     if (messageInputElement.value) {
         //saveMessage(messageInputElement.value).then(function() {
-        sendMsg(messageInputElement.value); // Message Sendin' ya
+        sendMsgAll(messageInputElement.value); // Message Sendin' ya
         // TODO send our message through P2P! And then execute the code below in a callback (idk how that will work)
         // Clear message text field and re-enable the SEND button.
         resetMaterialTextfield(messageInputElement);
