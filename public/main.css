@@ -152,8 +152,8 @@ body {
   background-size: cover;
 }
 #qr_container {
-  width: 324px;
-  height: 324px;
+  min-width: 324px;
+  min-height: 324px;
 
   border: 12px solid white;
   border-radius: 8px;
