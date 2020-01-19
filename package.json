@@ -4,6 +4,7 @@
   "description": "How to run:",
   "main": "main.js",
   "dependencies": {
+    "automerge": "^0.12.1",
     "simple-peer": "^9.6.2",
     "watch": "^1.0.2",
     "watchify": "^3.11.1"

@@ -3,6 +3,7 @@ var messageInputElement = document.getElementById('message');
 var messageFormElement = document.getElementById('message-form');
 var messageListElement = document.getElementById('messages');
 
+const Automerge = require('automerge')
 
 var initialized = false; // this boolean flag is used so we don't trigger the intialize function twice.
 
@@ -65,27 +66,6 @@ peer.on('error', function (err) {
     alert('' + err);
 });
 
-// peer.on('disconnected', function () {
-//     status.innerHTML = "Connection lost. Please reconnect";
-//     console.log('Connection lost. Please reconnect');
-
-//     // Workaround for peer.reconnect deleting previous id
-//     peer.id = lastPeerId;
-//     peer._lastServerId = lastPeerId;
-//     peer.reconnect();
-// });
-// peer.on('close', function () {
-//     conn = null;
-//     status.innerHTML = "Connection destroyed. Please refresh";
-//     console.log('Connection destroyed');
-// });
-// peer.on('error', function (err) {
-//     console.log(err);
-//     alert('' + err);
-// });
-
-// if (!initialized) initialize(response.ip);
-
 // Gets triggered when someone tries to CONNECT with another
 function initializeConnection(targetId) {
     console.log("initializeConnection", targetId);
@@ -134,25 +114,18 @@ function sendMsg(msg) {
 }
 
 function initializeQR(peerId) {
-
     betterLog("Peer ID: " + peerId);
-    // const longLink = "https://matthew-boisvert.github.io/CruzHacks/public/index.html#" + peerId;
-    const longLink = "file:///Users/ryananderson/Desktop/cruz_hax/CruzHacks/public/index.html#" + peerId;
+    const longLink = "https://matthew-boisvert.github.io/CruzHacks/public/index.html#" + peerId;
+    // const longLink = "file:///Users/ryananderson/Desktop/cruz_hax/CruzHacks/public/index.html#" + peerId;
 
     new QRCode(document.getElementById("qr_container"),
         longLink);
     //https://people.ucsc.edu/~rykaande/
 
-    // shortenLink(longLink, function(shortlink){
-    //     $('#my-qr').append("<a href="+shortlink+">Click Here for Test!</a>");
-    // });
-    // shortenLink(longLink, function(shortlink){
-    $('#shortlink_container').html("<a href=" + longLink + ">" + longLink + "</a>");
-    // });
-
-
-
-
+    shortenLink(longLink, function (shortlink) {
+        if (shortlink) $('#shortlink_container').append(shortlink.replace("https://", "") + "</br>");
+        else $('#shortlink_container').append(longLink.replace("https://", "") + "</br>");
+    });
 }
 
 function betterLog(text1, text2) {
@@ -161,26 +134,32 @@ function betterLog(text1, text2) {
 };
 
 function shortenLink(longLink, callbackFunc) {
-    // Using YQL and JSONP
+    // Using is.gd and JSONP
     $.ajax({
         url: "https://is.gd/create.php",
 
-        // The name of the callback parameter, as specified by the YQL service
+        // The name of the callback parameter, as specified by the is.gd service
         jsonp: "callback",
 
         // Tell jQuery we're expecting JSONP
         dataType: "jsonp",
 
-        // Tell YQL what we want and that we want JSON
+        // Tell is.gd what we want and that we want JSON
         data: {
             url: longLink,
             format: "json"
         },
 
+        timeout: 3000, // sets timeout to 3 seconds
+
         // Work with the response
         success: function (response) {
             //console.log(response.shorturl); // server response
             callbackFunc(response.shorturl);
+        },
+        error: function (err) {
+            console.warn('url shortener error', err)
+            callbackFunc(null)
         }
     });
 }
