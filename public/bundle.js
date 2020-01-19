@@ -14947,7 +14947,8 @@ var messageFormElement = document.getElementById('message-form');
 var messageListElement = document.getElementById('messages');
 
 var hashID = null; role = 'prof';
-const myEmoji = utils.randomEmoji();
+const myEmojiNumber = utils.randomEmojiNumber();
+const myEmoji = utils.getEmoji(myEmojiNumber);
 
 // var conn;
 var connections = [];
@@ -15040,7 +15041,7 @@ function startListening(conn) {
         dataObj = JSON.parse(data);
         console.log("OBJ FORM: ", dataObj);
 
-        displayMessage(dataObj.msgId, dataObj.timestamp, dataObj.senderName, dataObj.message); /////(id, timestamp, name, text)
+        displayMessage(dataObj.msgId, dataObj.timestamp, utils.getEmoji(dataObj.senderEmoji), dataObj.message); /////(id, timestamp, name, text)
         // console.log("received message ", data);
         //msgId, timestamp, senderName, message
 
@@ -15073,7 +15074,7 @@ function sendMsg(msg, conn) {
         const toSend = {
             msgId: Math.random(),
             timestamp: 0,
-            senderName: "a_sender",
+            senderEmoji: myEmojiNumber,
             message: msg
         };
 
@@ -15224,6 +15225,15 @@ var possibleEmojis = [
 module.exports.randomEmoji = function () {
     const randomIndex = Math.floor(Math.random() * possibleEmojis.length);
     return possibleEmojis[randomIndex];
+}
+
+module.exports.getEmoji = function(index) {
+    return possibleEmojis[index];
+}
+
+module.exports.randomEmojiNumber = function () {
+    const randomIndex = Math.floor(Math.random() * possibleEmojis.length);
+    return randomIndex;
 }
 
 module.exports.betterLog = function (text1, text2) {

@@ -10,6 +10,15 @@ module.exports.randomEmoji = function () {
     return possibleEmojis[randomIndex];
 }
 
+module.exports.getEmoji = function(index) {
+    return possibleEmojis[index];
+}
+
+module.exports.randomEmojiNumber = function () {
+    const randomIndex = Math.floor(Math.random() * possibleEmojis.length);
+    return randomIndex;
+}
+
 module.exports.betterLog = function (text1, text2) {
     console.log(text1, text2)
     $('#console_msgs').append(text1).append(", ").append(text2).append(document.createElement("br"));
