@@ -79,6 +79,7 @@ peer.on('open', function (id) {
 
 // if (!initialized) initialize(response.ip);
 var conn;
+
 function initializeConnection(targetId) {
     console.log("initializeConnection", targetId);
     conn = peer.connect(targetId);
@@ -92,17 +93,18 @@ function initializeConnection(targetId) {
 }
 
 // Message Receiving
-peer.on('connection', function (conn) {
+peer.on('connection', function (_conn) {
+    conn = _conn;
     conn.on('data', function (data) {
         // Will print 'hi!'
         // betterLog(data);
-        displayMessage(0, 0, "banane", data); /////(id, timestamp, name, text)
+        displayMessage(Math.random(), 0, "banane", data); /////(id, timestamp, name, text)
         console.log("received message ", data); 
     });
 });
 
 function sendMsg(msg) {
-    console.log("call sendmsg");
+    console.log("call sendmsg ", conn);
     if (conn != null) {
         conn.send(msg);
         console.log("Just sent message ", msg);
@@ -112,16 +114,20 @@ function sendMsg(msg) {
 function initializeQR(peerId) {
 
     betterLog("Peer ID: " + peerId);
-    const longLink = "https://matthew-boisvert.github.io/CruzHacks/public/index.html#" + peerId;
+    // const longLink = "https://matthew-boisvert.github.io/CruzHacks/public/index.html#" + peerId;
+    const longLink = "file:///Users/ryananderson/Desktop/cruz_hax/CruzHacks/public/index.html#" + peerId;
 
     $('#my-qr').html("Peer ID: " + peerId);
     new QRCode(document.getElementById("my-qr"),
         longLink);
     //https://people.ucsc.edu/~rykaande/
 
-    shortenLink(longLink, function(shortlink){
-        $('#my-qr').append("<a href="+shortlink+">Click Here for Test!</a>");
-    });
+    // shortenLink(longLink, function(shortlink){
+    //     $('#my-qr').append("<a href="+shortlink+">Click Here for Test!</a>");
+    // });
+    // shortenLink(longLink, function(shortlink){
+    $('#my-qr').append("<a href="+longLink+">Click Here for Test!</a>");
+    // });
 
 
     
