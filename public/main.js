@@ -1,11 +1,8 @@
+const Automerge = require('automerge');
 var submitButtonElement = document.getElementById('submit');
 var messageInputElement = document.getElementById('message');
 var messageFormElement = document.getElementById('message-form');
 var messageListElement = document.getElementById('messages');
-
-const Automerge = require('automerge')
-
-var initialized = false; // this boolean flag is used so we don't trigger the intialize function twice.
 
 var hashID = null; role = 'prof';
 
@@ -24,6 +21,8 @@ if (window.location.hash.length > 1) { // check if the url contains a hash
     hashID = window.location.hash.substr(1, window.location.hash.length - 1);
     role = 'student';
 }
+
+let localData = Automerge.from({ questions: [] })
 
 var lastPeerId = null;
 
