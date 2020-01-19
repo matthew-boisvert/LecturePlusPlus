@@ -1,14 +1,14 @@
 ![slug image](https://github.com/matthew-boisvert/CruzHacks/blob/master/slugs/yellowslugwithspeech.png?s=50)
 
 # Lecture++
-Lecture++ is a JavaScript P2P (Peer-To-Peer) text-based chat application that can be used by students to communicate with their instructors more easily during class. By going to the website at [https://matthew-boisvert.github.io/CruzHacks/public/](https://matthew-boisvert.github.io/CruzHacks/public/), an instructor can create a local chatroom for students to connect to and ask questions during class.
+Lecture++ is a JavaScript P2P (Peer-To-Peer) text-based chat application that can be used by students to communicate with their instructors more easily during class. By going to the website at [https://matthew-boisvert.github.io/CruzHacks/public/](https://matthew-boisvert.github.io/CruzHacks/public/), an instructor can create a local chatroom for students to connect to and ask questions during lectures.
 
 Lecture++ was developed in order to address two major academic accessibility issues in large lecture hall environments:
 
  1. When students have a difficult time voicing their questions during lectures
- 2. When instructors have hearing impairments
+ 2. When instructors suffer from hearing impairments
 
-Using our application, we hope that it will be simple and convenient for students and teachers to have an intuitive method for communicating during lectures. It will also make it easier for teachers to know which questions students are generally confused about and need help with.
+With our application, we strive to make it as simple, convenient, and intuitive as possible for students and instructors to communicate during lectures. It can further help instructors prioritize concepts that students are generally confused about and need help with.
 
 ## How to use
 
@@ -29,4 +29,4 @@ This project was made for CruzHacks 2020 by **Team 736c7567**, a group of dedica
  - Ryan Anderson
  - [Kyle Worcester-Moore](https://www.linkedin.com/in/kyle-worcester-moore/)
  - [Matt Boisvert](https://www.linkedin.com/in/matthew-boisvert-aa5732158/)
- - Eric Huang
+ - [Eric Huang](https://www.linkedin.com/in/eric-huang-798a94196/)
