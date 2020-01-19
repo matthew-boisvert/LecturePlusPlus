@@ -4,9 +4,9 @@
     <head>
         <meta charset='utf-8'>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="description" content="Learn how to use the Firebase platform on the Web">
+        <meta name="description" content="Ask questions in class">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>TeacherTalky</title>
+        <title>blurt.</title>
         <script src=
 "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/0.3.18/peer.min.js"></script>
@@ -82,23 +82,19 @@
 
     </head>
     <body>
-        <div id="peer_connect_area">
-            <p>Scan this code with your camera app:</p>
-            <div id="qr_container"></div>
-            <p>Or visit:</p>
-            <p id="shortlink_container"></p>
-        </div>
 
         <div id="console_msgs"></div>
 
-        <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header" style="margin-top:200px">
+        <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header" style="margin-top:0px">
 
             <!-- Header section containing logo -->
             <header class="mdl-layout__header mdl-color-text--blue mdl-color--yellow">
                 <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
                     <div class="mdl-layout__header-row mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
-                        <h3>
-                            <i class="material-icons">chat_bubble_outline</i> Teacher Talky</h3>
+                        <h2>
+                            blurt.</h2>
+                        <!-- Flat button -->
+                        
                     </div>
                     <!--<div id="user-container">
                         <div hidden id="user-pic"></div>
@@ -117,7 +113,7 @@
                 <div id="messages-card-container" class="mdl-cell mdl-cell--12-col mdl-grid">
 
                     <!-- Messages container -->
-                    <div id="messages-card" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--6-col-desktop">
+                    <div id="messages-card" class="mdl-card mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--6-col-desktop">
                         <div class="mdl-card__supporting-text mdl-color-text--grey-600">
                             <div id="messages"></div>
                             <form id="message-form" action="#">
@@ -137,7 +133,12 @@
                         <div class="mdl-snackbar__text"></div>
                         <button class="mdl-snackbar__action" type="button"></button>
                     </div>
-
+                    <div id="peer_connect_area">
+                        <p>Scan this code with your camera app:</p>
+                        <div id="qr_container"></div>
+                        <p>Or visit:</p>
+                        <p id="shortlink_container"></p>
+                    </div>
                 </div>
             </main>
         </div>
