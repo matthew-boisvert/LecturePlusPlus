@@ -14971,6 +14971,7 @@ peer = new Peer(null, {
     debug: 2
 });
 
+// This is to create your own peer object
 peer.on('open', function (id) {
     console.log("open peer id ", id);
     // Workaround for peer.reconnect deleting previous id
@@ -14982,16 +14983,13 @@ peer.on('open', function (id) {
     }
 
     betterLog('ID: ' + peer.id);
-    // if (role === 'student') {
     if (hashID) initializeConnection(hashID);
-    // } else {
-    //     //
-    // }
     initializeQR(peer.id)
 });
+
 peer.on('disconnected', function () {
-    status.innerHTML = "Connection lost. Please scan the profesor's code again.";
-    betterLog('Connection lost. Please reconnect');
+    status.innerHTML = "Connection lost. Try refreshing the page.";
+    //betterLog('Connection lost. Please reconnect');
     // Workaround for peer.reconnect deleting previous id
     peer.id = lastPeerId;
     peer._lastServerId = lastPeerId;
@@ -15012,10 +15010,10 @@ function initializeConnection(targetId) {
     console.log("initializeConnection", targetId);
     var conn = peer.connect(targetId);
     connections.push(conn);
-    betterLog("connection init", conn)
+    // betterLog("connection init", conn)
     // on open will be launch when you successfully connect to PeerServer
     conn.on('open', function () {
-        betterLog("sending hi", conn.id)
+        // betterLog("sending hi", conn.id)
         // here you have conn.id
         // conn.send('REEEEEE!');
         startListening(conn);
@@ -15025,12 +15023,13 @@ function initializeConnection(targetId) {
 // Gets triggered when someone connects to you.
 peer.on('connection', function (_conn) {
     conn = _conn;
-    console.log("peer on connection", conn);
-    startListening(conn);
+    connections.push(conn);
+    // console.log("peer on connection", conn);
+    startListening(conn);  
 });
 
 function startListening(conn) {
-    console.log(conn);
+    // console.log(conn);
     conn.on('data', function (data) {
         // Will print 'hi!'
         // betterLog(data);
@@ -15040,10 +15039,16 @@ function startListening(conn) {
 }
 
 function sendMsg(msg) {
-    console.log("call sendmsg ", conn);
-    if (conn != null) {
-        conn.send(msg);
-        console.log("Just sent message ", msg);
+    console.log("connections: ",connections);
+    for(var i=0; i<connections.length; i++) {
+        const conn = connections[i];
+        console.log("call sendmsg ", conn);
+        displayMessage(Math.random(), 0, "une banane", msg); //(id, timestamp, name, text)
+        if (conn != null) {
+            console.log("conn: ",conn);
+            conn.send(msg);
+            console.log("Just sent message ", msg);
+        }
     }
 }
 
@@ -15142,6 +15147,7 @@ function resetMaterialTextfield(element) {
 }
 
 function displayMessage(id, timestamp, name, text) {
+    console.log("displaty message");
     var div = document.getElementById(id) || createAndInsertMessage(id, timestamp);
 
     div.querySelector('.name').textContent = name;
