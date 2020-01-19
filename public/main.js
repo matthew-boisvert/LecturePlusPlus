@@ -8,6 +8,9 @@ var initialized = false; // this boolean flag is used so we don't trigger the in
 
 var hashID = null; role = 'prof';
 
+// var conn;
+var connections = [];
+
 // Template for messages.
 var MESSAGE_TEMPLATE =
     '<div class="message-container">' +
@@ -64,30 +67,58 @@ peer.on('error', function (err) {
     alert('' + err);
 });
 
-var conn;
+// peer.on('disconnected', function () {
+//     status.innerHTML = "Connection lost. Please reconnect";
+//     console.log('Connection lost. Please reconnect');
 
+//     // Workaround for peer.reconnect deleting previous id
+//     peer.id = lastPeerId;
+//     peer._lastServerId = lastPeerId;
+//     peer.reconnect();
+// });
+// peer.on('close', function () {
+//     conn = null;
+//     status.innerHTML = "Connection destroyed. Please refresh";
+//     console.log('Connection destroyed');
+// });
+// peer.on('error', function (err) {
+//     console.log(err);
+//     alert('' + err);
+// });
+
+// if (!initialized) initialize(response.ip);
+
+// Gets triggered when someone tries to CONNECT with another
 function initializeConnection(targetId) {
     console.log("initializeConnection", targetId);
-    conn = peer.connect(targetId);
+    var conn = peer.connect(targetId);
+    connections.push(conn);
     betterLog("connection init", conn)
     // on open will be launch when you successfully connect to PeerServer
     conn.on('open', function () {
         betterLog("sending hi", conn.id)
         // here you have conn.id
-        conn.send('REEEEEE!');
+        // conn.send('REEEEEE!');
+        startListening(conn);
     });
 }
 
-// Message Receiving
+// Gets triggered when someone connects to you.
 peer.on('connection', function (_conn) {
     conn = _conn;
+    console.log("peer on connection", conn);
+    startListening(conn);  
+});
+
+function startListening(conn) {
+    console.log(conn);
     conn.on('data', function (data) {
         // Will print 'hi!'
         // betterLog(data);
         displayMessage(Math.random(), 0, "banane", data); /////(id, timestamp, name, text)
         console.log("received message ", data);
     });
-});
+}
 
 function sendMsg(msg) {
     console.log("call sendmsg ", conn);
