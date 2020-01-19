@@ -1,6 +1,6 @@
 # Lecture++
 
-![slug image](https://github.com/matthew-boisvert/CruzHacks/blob/master/slugs/yellowslugwithspeech.png)
+![slug image](https://github.com/matthew-boisvert/CruzHacks/blob/master/slugs/yellowslugwithspeech.png?s=200)
 
 Lecture++ is a JavaScript P2P (Peer-To-Peer) text-based chat application that can be used by students to communicate with their instructors more easily during class. By going to the website at [https://matthew-boisvert.github.io/CruzHacks/public/](https://matthew-boisvert.github.io/CruzHacks/public/), an instructor can create a local chatroom for students to connect to and ask questions during class.
 
