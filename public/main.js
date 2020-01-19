@@ -69,27 +69,6 @@ peer.on('error', function (err) {
     alert('' + err);
 });
 
-// peer.on('disconnected', function () {
-//     status.innerHTML = "Connection lost. Please reconnect";
-//     console.log('Connection lost. Please reconnect');
-
-//     // Workaround for peer.reconnect deleting previous id
-//     peer.id = lastPeerId;
-//     peer._lastServerId = lastPeerId;
-//     peer.reconnect();
-// });
-// peer.on('close', function () {
-//     conn = null;
-//     status.innerHTML = "Connection destroyed. Please refresh";
-//     console.log('Connection destroyed');
-// });
-// peer.on('error', function (err) {
-//     console.log(err);
-//     alert('' + err);
-// });
-
-// if (!initialized) initialize(response.ip);
-
 // Gets triggered when someone tries to CONNECT with another
 function initializeConnection(targetId) {
     console.log("initializeConnection", targetId);
