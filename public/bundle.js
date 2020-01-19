@@ -22,7 +22,7 @@ if (window.location.hash.length > 1) { // check if the url contains a hash
     role = 'student';
 }
 
-// var lastPeerId = null;
+var lastPeerId = null;
 
 // Create own peer object with connection to shared PeerJS server
 peer = new Peer(null, {
@@ -30,13 +30,14 @@ peer = new Peer(null, {
 });
 
 peer.on('open', function (id) {
+    console.log("open peer id ", id);
     // Workaround for peer.reconnect deleting previous id
-    // if (peer.id === null) {
-    //     console.log('Received null id from peer open');
-    //     peer.id = lastPeerId;
-    // } else {
-    //     lastPeerId = peer.id;
-    // }
+    if (peer.id === null) {
+        console.log('Received null id from peer open');
+        peer.id = lastPeerId;
+    } else {
+        lastPeerId = peer.id;
+    }
 
     betterLog('ID: ' + peer.id);
     // if (role === 'student') {
@@ -79,44 +80,59 @@ peer.on('open', function (id) {
 // if (!initialized) initialize(response.ip);
 var conn;
 function initializeConnection(targetId) {
+    console.log("initializeConnection", targetId);
     conn = peer.connect(targetId);
     betterLog("connection init", conn)
     // on open will be launch when you successfully connect to PeerServer
     conn.on('open', function () {
         betterLog("sending hi", conn.id)
         // here you have conn.id
-        conn.send('hi!');
+        conn.send('REEEEEE!');
     });
 }
 
+// Message Receiving
 peer.on('connection', function (conn) {
     conn.on('data', function (data) {
         // Will print 'hi!'
         // betterLog(data);
         displayMessage(0, 0, "banane", data); /////(id, timestamp, name, text)
+        console.log("received message ", data); 
     });
 });
 
 function sendMsg(msg) {
-    if (conn != null) conn.send(msg);
+    console.log("call sendmsg");
+    if (conn != null) {
+        conn.send(msg);
+        console.log("Just sent message ", msg);
+    }
 }
 
 function initializeQR(peerId) {
 
     betterLog("Peer ID: " + peerId);
-    $('#my-qr').html("Peer ID: " + peerId);
+    const longLink = "https://matthew-boisvert.github.io/CruzHacks/public/index.html#" + peerId;
 
+    $('#my-qr').html("Peer ID: " + peerId);
     new QRCode(document.getElementById("my-qr"),
-        "https://matthew-boisvert.github.io/CruzHacks/public/index.html#" + peerId);
+        longLink);
     //https://people.ucsc.edu/~rykaande/
+
+    shortenLink(longLink, function(shortlink){
+        $('#my-qr').append("<a href="+shortlink+">Click Here for Test!</a>");
+    });
+
+
+    
+
 }
 
 function betterLog(text1, text2) {
     $('body').append(text1).append(", ").append(text2).append(document.createElement("br"));
 };
 
-function shortenLink(longLink) {
-    "https://is.gd/create.php?format=simple&url=www.example.com"
+function shortenLink(longLink, callbackFunc) {
     // Using YQL and JSONP
     $.ajax({
         url: "https://is.gd/create.php",
@@ -135,7 +151,8 @@ function shortenLink(longLink) {
 
         // Work with the response
         success: function (response) {
-            console.log(response.shorturl); // server response
+            //console.log(response.shorturl); // server response
+            callbackFunc(response.shorturl);
         }
     });
 }
@@ -160,7 +177,7 @@ function onMessageFormSubmit(e) {
     // Check that the user entered a message 
     if (messageInputElement.value) {
       //saveMessage(messageInputElement.value).then(function() {
-        sendMsg(messageInputElement.value);
+        sendMsg(messageInputElement.value); // Message Sendin' ya
         // TODO send our message through P2P! And then execute the code below in a callback (idk how that will work)
         // Clear message text field and re-enable the SEND button.
         resetMaterialTextfield(messageInputElement);
