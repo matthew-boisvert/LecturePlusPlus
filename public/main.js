@@ -159,6 +159,7 @@ function onMessageFormSubmit(e) {
     // Check that the user entered a message 
     if (messageInputElement.value) {
       //saveMessage(messageInputElement.value).then(function() {
+        sendMsg(messageInputElement.value);
         // TODO send our message through P2P! And then execute the code below in a callback (idk how that will work)
         // Clear message text field and re-enable the SEND button.
         resetMaterialTextfield(messageInputElement);
