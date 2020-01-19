@@ -11,6 +11,8 @@ var hashID = null; role = 'prof';
 // var conn;
 var connections = [];
 
+var changeQueue = [];
+
 // Template for messages.
 var MESSAGE_TEMPLATE =
     '<div class="message-container">' +
@@ -107,7 +109,7 @@ function initializeConnection(targetId) {
 peer.on('connection', function (_conn) {
     conn = _conn;
     console.log("peer on connection", conn);
-    startListening(conn);  
+    startListening(conn);
 });
 
 function startListening(conn) {
@@ -129,7 +131,6 @@ function sendMsg(msg) {
 }
 
 function initializeQR(peerId) {
-
     betterLog("Peer ID: " + peerId);
     const longLink = "https://matthew-boisvert.github.io/CruzHacks/public/index.html#" + peerId;
     // const longLink = "file:///Users/ryananderson/Desktop/cruz_hax/CruzHacks/public/index.html#" + peerId;
@@ -138,17 +139,10 @@ function initializeQR(peerId) {
         longLink);
     //https://people.ucsc.edu/~rykaande/
 
-    // shortenLink(longLink, function(shortlink){
-    //     $('#my-qr').append("<a href="+shortlink+">Click Here for Test!</a>");
-    // });
     shortenLink(longLink, function (shortlink) {
         if (shortlink) $('#shortlink_container').append(shortlink.replace("https://", "") + "</br>");
         else $('#shortlink_container').append(longLink.replace("https://", "") + "</br>");
     });
-
-
-
-
 }
 
 function betterLog(text1, text2) {
