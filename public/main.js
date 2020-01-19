@@ -104,8 +104,13 @@ function startListening(conn) {
         displayMessage(dataObj.msgId, dataObj.timestamp, utils.getEmoji(dataObj.senderEmoji), dataObj.message); /////(id, timestamp, name, text)
         // console.log("received message ", data);
         //msgId, timestamp, senderName, message
-
-
+        //sendMsgAllExceptOne(data, conn);
+        // RELAY THE MESSAGE TO THE NEIGHBORS
+        for(var i=0; i<connections.length; i++) {
+            if(connections[i] != conn) {
+                connections[i].send(data);
+            }
+        }
     });
 }
 
@@ -117,13 +122,22 @@ function sendMsgAll(msg) {
     }
 }
 
-function sendMsgAllExceptOne(msg, conn) {
-    console.log("connections: ", connections);
-    displayMessage(Math.random(), 0, myEmoji, msg); //(id, timestamp, name, text)
+// function sendMsgAllExceptOne(msg, conn) {
+//     console.log("connections: ", connections);
+    // displayMessage(Math.random(), 0, myEmoji, msg); //(id, timestamp, name, text)
+    // for (var i = 0; i < connections.length; i++) {
+    //     if(conn != connections[i]) sendMsg(msg, connections[i]);
+    // }
+// }
+
+function relayMessageObject(msgObj, conn) {
+    // con is the conneciton object from which msgObj orignated.
+        // displayMessage(Math.random(), 0, myEmoji, msg); //(id, timestamp, name, text)
     for (var i = 0; i < connections.length; i++) {
         if(conn != connections[i]) sendMsg(msg, connections[i]);
     }
 }
+
 
 function sendMsg(msg, conn) {
     console.log("call sendmsg ", conn);
@@ -143,22 +157,6 @@ function sendMsg(msg, conn) {
 
         console.log("I want to send the message: ",jsonSend);
         conn.send(jsonSend); //TODO uncomment
-        // conn.send(jsonSend); //TODO uncomment
-        // for(var i=0; i<jsonSend.length; i++) {
-        //     conn.send(jsonSend[i]);
-        // }
-        // const pt = 16; //20 NO, 18NO , 17=BINARY THING
-        // conn.send(jsonSend.substring(0, pt));
-        // console.log("sent ", jsonSend.substring(0, pt));
-        // conn.send(jsonSend.substring(pt, jsonSend.length));
-        // console.log("sent ", jsonSend.substring(pt, jsonSend.length));
-
-
-        //conn.send("This isn't right");
-        //reee
-
-         //msgId, timestamp, senderName, message
-
 
     }
 }
