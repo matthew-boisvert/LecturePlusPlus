@@ -28,7 +28,7 @@
 
     <!-- Top View -->
 
-    <div id="connection_view" class="view-hidden">
+    <!-- <div id="connection_view" class="view-hidden">
         <div id="peer_connect_area">
             <p>Scan this code with your camera app:</p>
             <div id="qr_container"></div>
@@ -36,90 +36,73 @@
             <p id="shortlink_container"></p>
         </div>
         <button type="button" class="btn btn-primary" id="connection_view_toggle">Connect a Classmate</button>
-    </div>
+    </div> -->
+
+    <!-- Just an image -->
+    <nav class="navbar navbar-dark bg-dark fixed-top top-navbar">
+        <a href="#" class="navbar-brand" id="back_button">
+            <!-- <img src="/docs/4.1/assets/brand/bootstrap-solid.svg" width="30" height="30" alt=""> -->❮
+        </a>
+    </nav>
 
     <!-- Main View -->
     <div id="main_view">
-        <ul class="column list-group" id="question_list">
-            <li class="question-item list-group-item list-group-item-action flex-column align-items-start active">
-                <span>
-                    <div class="question-item-info">
-                        <span class="question-item-author">Name</span>
-                        <span class="question-item-time">5 mins ago</span>
-                    </div>
+        <div style="z-index: 0; position: fixed;" class="ui-layer">
+            <div class="column list-group" id="question_list">
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between question-item-info">
-                        <h5 class="mb-1 question-item-author">List group item heading</h5>
+                        <h5 class="question-item-author"><span class="badge badge-primary badge-pill">14</span> List
+                            group
+                            item heading</h5>
                         <small class="question-item-time">3 days ago</small>
                     </div>
-                    <div class="question-item-body">
-                        How does the n^2 make a circle in the double derivitive?
-                    </div>
-                </span>
-                <span class="question-actions-container">
+                    <p class="question-item-body mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed
+                        diam
+                        eget risus varius
+                        blandit.</p>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between question-item-info">
 
-                </span>
-                <span class="badge badge-primary badge-pill">14</span>
-            </li>
-        </ul>
-        <div class="column list-group">
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">List group item heading</h5>
-                    <small>3 days ago</small>
-                </div>
-                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
-                    blandit.</p>
-                <small>Donec id elit non mi porta.</small>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">List group item heading</h5>
-                    <small class="text-muted">3 days ago</small>
-                </div>
-                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
-                    blandit.</p>
-                <small class="text-muted">Donec id elit non mi porta.</small>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">List group item heading</h5>
-                    <small class="text-muted">3 days ago</small>
-                </div>
-                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
-                    blandit.</p>
-                <small class="text-muted">Donec id elit non mi porta.</small>
-            </a>
+                        <h5 class="question-item-author"><span class="badge badge-primary badge-pill">14</span> List
+                            group
+                            item heading</h5>
+                        <small class="question-item-time">3 days ago</small>
+                    </div>
+                    <p class="question-item-body mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed
+                        diam
+                        eget risus varius
+                        blandit.</p>
+                </a>
+            </div>
+            <div class="column detail-spacer">
+
+            </div>
         </div>
-        <div class="column" id="detail_view">
-            <div class="question-item">
-                <span>
-                    <div class="question-item-info">
-                        <span class="question-item-author">Name</span>
-                        <span class="question-item-time">5 mins ago</span>
-                    </div>
-                    <div class="question-item-body">
-                        How does the n^2 make a circle in the double derivitive?
-                    </div>
-                </span>
-                <span class="question-actions-container">
-
-                </span>
+        <div style="z-index: 1;" class="ui-layer">
+            <div class="column list-group list-spacer">
             </div>
-            <div class="question-item question-indent">
-                <span>
-                    <div class="question-item-info">
-                        <span class="question-item-author">Name</span>
-                        <span class="question-item-time">5 mins ago</span>
-                    </div>
+            <div class="column" id="detail_view">
+                <!-- <div class="question-item">
 
-                    <div class="question-item-body">
-                        How does the n^2 make a circle in the double derivitive?
-                    </div>
-                </span>
-                <span class="question-actions-container">
+                </div>
+                <div class="question-item question-indent">
 
-                </span>
+                </div> -->
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between question-item-info">
+                        <h5 class="question-item-author"><span class="badge badge-primary badge-pill">14</span> List
+                            group
+                            item heading</h5>
+                        <small class="question-item-time">3 days ago</small>
+                    </div>
+                    <p class="question-item-body mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed
+                        diam
+                        eget risus varius
+                        blandit.</p>
+                </a>
             </div>
+
         </div>
     </div>
 </body>
