@@ -1,4 +1,6 @@
-const Automerge = require('automerge');
+var merge = require('./modules/merge');
+var utils = require('./modules/utils');
+
 var submitButtonElement = document.getElementById('submit');
 var messageInputElement = document.getElementById('message');
 var messageFormElement = document.getElementById('message-form');
@@ -22,8 +24,6 @@ if (window.location.hash.length > 1) { // check if the url contains a hash
     role = 'student';
 }
 
-let localData = Automerge.from({ questions: [] })
-
 var lastPeerId = null;
 
 // Create own peer object with connection to shared PeerJS server
@@ -42,14 +42,14 @@ peer.on('open', function (id) {
         lastPeerId = peer.id;
     }
 
-    betterLog('ID: ' + peer.id);
+    utils.betterLog('ID: ' + peer.id);
     if (hashID) initializeConnection(hashID);
     initializeQR(peer.id)
 });
 
 peer.on('disconnected', function () {
     status.innerHTML = "Connection lost. Try refreshing the page.";
-    //betterLog('Connection lost. Please reconnect');
+    //utils.betterLog('Connection lost. Please reconnect');
     // Workaround for peer.reconnect deleting previous id
     peer.id = lastPeerId;
     peer._lastServerId = lastPeerId;
@@ -58,7 +58,7 @@ peer.on('disconnected', function () {
 peer.on('close', function () {
     conn = null;
     status.innerHTML = "Connection destroyed. Please refresh the page";
-    betterLog('Connection destroyed');
+    utils.betterLog('Connection destroyed');
 });
 peer.on('error', function (err) {
     console.warn(err);
@@ -70,10 +70,10 @@ function initializeConnection(targetId) {
     console.log("initializeConnection", targetId);
     var conn = peer.connect(targetId);
     connections.push(conn);
-    // betterLog("connection init", conn)
+    // utils.betterLog("connection init", conn)
     // on open will be launch when you successfully connect to PeerServer
     conn.on('open', function () {
-        // betterLog("sending hi", conn.id)
+        // utils.betterLog("sending hi", conn.id)
         // here you have conn.id
         // conn.send('REEEEEE!');
         startListening(conn);
@@ -85,27 +85,27 @@ peer.on('connection', function (_conn) {
     conn = _conn;
     connections.push(conn);
     // console.log("peer on connection", conn);
-    startListening(conn);  
+    startListening(conn);
 });
 
 function startListening(conn) {
     // console.log(conn);
     conn.on('data', function (data) {
         // Will print 'hi!'
-        // betterLog(data);
+        // utils.betterLog(data);
         displayMessage(Math.random(), 0, "banane", data); /////(id, timestamp, name, text)
         console.log("received message ", data);
     });
 }
 
 function sendMsg(msg) {
-    console.log("connections: ",connections);
-    for(var i=0; i<connections.length; i++) {
+    console.log("connections: ", connections);
+    for (var i = 0; i < connections.length; i++) {
         const conn = connections[i];
         console.log("call sendmsg ", conn);
         displayMessage(Math.random(), 0, "une banane", msg); //(id, timestamp, name, text)
         if (conn != null) {
-            console.log("conn: ",conn);
+            console.log("conn: ", conn);
             conn.send(msg);
             console.log("Just sent message ", msg);
         }
@@ -113,7 +113,7 @@ function sendMsg(msg) {
 }
 
 function initializeQR(peerId) {
-    betterLog("Peer ID: " + peerId);
+    utils.betterLog("Peer ID: " + peerId);
     const longLink = "https://matthew-boisvert.github.io/CruzHacks/public/index.html#" + peerId;
     // const longLink = "file:///Users/ryananderson/Desktop/cruz_hax/CruzHacks/public/index.html#" + peerId;
 
@@ -121,60 +121,12 @@ function initializeQR(peerId) {
         longLink);
     //https://people.ucsc.edu/~rykaande/
 
-    shortenLink(longLink, function (shortlink) {
+    utils.shortenLink(longLink, function (shortlink) {
         if (shortlink) $('#shortlink_container').append(shortlink.replace("https://", "") + "</br>");
         else $('#shortlink_container').append(longLink.replace("https://", "") + "</br>");
     });
 }
 
-function betterLog(text1, text2) {
-    console.log(text1, text2)
-    $('#console_msgs').append(text1).append(", ").append(text2).append(document.createElement("br"));
-};
-
-function shortenLink(longLink, callbackFunc) {
-    // Using is.gd and JSONP
-    $.ajax({
-        url: "https://is.gd/create.php",
-
-        // The name of the callback parameter, as specified by the is.gd service
-        jsonp: "callback",
-
-        // Tell jQuery we're expecting JSONP
-        dataType: "jsonp",
-
-        // Tell is.gd what we want and that we want JSON
-        data: {
-            url: longLink,
-            format: "json"
-        },
-
-        timeout: 3000, // sets timeout to 3 seconds
-
-        // Work with the response
-        success: function (response) {
-            //console.log(response.shorturl); // server response
-            callbackFunc(response.shorturl);
-        },
-        error: function (err) {
-            console.warn('url shortener error', err)
-            callbackFunc(null)
-        }
-    });
-}
-
-var possibleEmojis = [
-    '🐀', '🐁', '🐭', '🐹', '🐂', '🐃', '🐄', '🐮', '🐅', '🐆', '🐯', '🐇', '🐐', '🐑', '🐏', '🐴',
-    '🐎', '🐱', '🐈', '🐰', '🐓', '🐔', '🐤', '🐣', '🐥', '🐦', '🐧', '🐘', '🐩', '🐕', '🐷', '🐖',
-    '🐗', '🐫', '🐪', '🐶', '🐺', '🐻', '🐨', '🐼', '🐵', '🙈', '🙉', '🙊', '🐒', '🐉', '🐲', '🐊',
-    '🐍', '🐢', '🐸', '🐋', '🐳', '🐬', '🐙', '🐟', '🐠', '🐡', '🐚', '🐌', '🐛', '🐜', '🐝', '🐞',
-];
-function randomEmoji() {
-
-    const randomIndex = Math.floor(Math.random() * possibleEmojis.length);
-    return possibleEmojis[randomIndex];
-}
-const emoji = randomEmoji();
 
 
 // Triggered when the send new message form is submitted.
