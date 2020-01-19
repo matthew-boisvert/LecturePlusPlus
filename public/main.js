@@ -44,7 +44,7 @@ peer.on('open', function (id) {
         lastPeerId = peer.id;
     }
 
-    utils.betterLog('ID: ' + peer.id);
+    // utils.betterLog('ID: ' + peer.id);
     if (hashID) initializeConnection(hashID);
     initializeQR(peer.id)
 });
@@ -60,7 +60,7 @@ peer.on('disconnected', function () {
 peer.on('close', function () {
     conn = null;
     status.innerHTML = "Connection destroyed. Please refresh the page";
-    utils.betterLog('Connection destroyed');
+    // utils.betterLog('Connection destroyed');
 });
 peer.on('error', function (err) {
     console.warn(err);
@@ -162,7 +162,7 @@ function sendMsg(msg, conn) {
 }
 
 function initializeQR(peerId) {
-    utils.betterLog("Peer ID: " + peerId);
+    // utils.betterLog("Peer ID: " + peerId);
     const longLink = "https://matthew-boisvert.github.io/CruzHacks/public/index.html#" + peerId;
     // const longLink = "file:///Users/ryananderson/Desktop/cruz_hax/CruzHacks/public/index.html#" + peerId;
 
