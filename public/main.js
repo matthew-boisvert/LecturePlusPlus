@@ -1,9 +1,11 @@
+const Automerge = require('automerge');
+
+
 var submitButtonElement = document.getElementById('submit');
 var messageInputElement = document.getElementById('message');
 var messageFormElement = document.getElementById('message-form');
 var messageListElement = document.getElementById('messages');
 
-const Automerge = require('automerge')
 
 var initialized = false; // this boolean flag is used so we don't trigger the intialize function twice.
 
