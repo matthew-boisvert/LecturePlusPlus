@@ -14,9 +14,9 @@ var connections = [];
 // Template for messages.
 var MESSAGE_TEMPLATE =
     '<div class="message-container">' +
-      '<div class="spacing"><div class="pic"></div></div>' +
-      '<div class="message"></div>' +
-      '<div class="name"></div>' +
+    '<div class="spacing"><div class="pic"></div></div>' +
+    '<div class="message"></div>' +
+    '<div class="name"></div>' +
     '</div>';
 
 if (window.location.hash.length > 1) { // check if the url contains a hash
@@ -49,6 +49,23 @@ peer.on('open', function (id) {
     // }
     initializeQR(peer.id)
 });
+peer.on('disconnected', function () {
+    status.innerHTML = "Connection lost. Please scan the profesor's code again.";
+    betterLog('Connection lost. Please reconnect');
+    // Workaround for peer.reconnect deleting previous id
+    peer.id = lastPeerId;
+    peer._lastServerId = lastPeerId;
+    peer.reconnect();
+});
+peer.on('close', function () {
+    conn = null;
+    status.innerHTML = "Connection destroyed. Please refresh the page";
+    betterLog('Connection destroyed');
+});
+peer.on('error', function (err) {
+    console.warn(err);
+    alert('' + err);
+});
 
 // peer.on('disconnected', function () {
 //     status.innerHTML = "Connection lost. Please reconnect";
@@ -68,7 +85,6 @@ peer.on('open', function (id) {
 //     console.log(err);
 //     alert('' + err);
 // });
-
 
 // if (!initialized) initialize(response.ip);
 
@@ -99,8 +115,8 @@ function startListening(conn) {
     conn.on('data', function (data) {
         // Will print 'hi!'
         // betterLog(data);
-        displayMessage(Math.random(), 0, "TODO insert Emoji", data); /////(id, timestamp, name, text)
-        console.log("received message ", data); 
+        displayMessage(Math.random(), 0, "banane", data); /////(id, timestamp, name, text)
+        console.log("received message ", data);
     });
 }
 
@@ -118,8 +134,7 @@ function initializeQR(peerId) {
     // const longLink = "https://matthew-boisvert.github.io/CruzHacks/public/index.html#" + peerId;
     const longLink = "file:///Users/ryananderson/Desktop/cruz_hax/CruzHacks/public/index.html#" + peerId;
 
-    $('#my-qr').html("Peer ID: " + peerId);
-    new QRCode(document.getElementById("my-qr"),
+    new QRCode(document.getElementById("qr_container"),
         longLink);
     //https://people.ucsc.edu/~rykaande/
 
@@ -127,16 +142,17 @@ function initializeQR(peerId) {
     //     $('#my-qr').append("<a href="+shortlink+">Click Here for Test!</a>");
     // });
     // shortenLink(longLink, function(shortlink){
-    $('#my-qr').append("<a href="+longLink+">Click Here for Test!</a>");
+    $('#shortlink_container').html("<a href=" + longLink + ">" + longLink + "</a>");
     // });
 
 
-    
+
 
 }
 
 function betterLog(text1, text2) {
-    $('body').append(text1).append(", ").append(text2).append(document.createElement("br"));
+    console.log(text1, text2)
+    $('#console_msgs').append(text1).append(", ").append(text2).append(document.createElement("br"));
 };
 
 function shortenLink(longLink, callbackFunc) {
@@ -181,25 +197,25 @@ const emoji = randomEmoji();
 // Triggered when the send new message form is submitted.
 function onMessageFormSubmit(e) {
     e.preventDefault();
-    // Check that the user entered a message 
+    // Check that the user entered a message
     if (messageInputElement.value) {
-      //saveMessage(messageInputElement.value).then(function() {
+        //saveMessage(messageInputElement.value).then(function() {
         sendMsg(messageInputElement.value); // Message Sendin' ya
         // TODO send our message through P2P! And then execute the code below in a callback (idk how that will work)
         // Clear message text field and re-enable the SEND button.
         resetMaterialTextfield(messageInputElement);
         toggleButton();
-      //});
+        //});
     }
-  }
+}
 
-  function toggleButton() {
+function toggleButton() {
     if (messageInputElement.value) {
-      submitButtonElement.removeAttribute('disabled');
+        submitButtonElement.removeAttribute('disabled');
     } else {
-      submitButtonElement.setAttribute('disabled', 'true');
+        submitButtonElement.setAttribute('disabled', 'true');
     }
-  }
+}
 
 // Resets the given MaterialTextField.
 function resetMaterialTextfield(element) {
@@ -209,60 +225,60 @@ function resetMaterialTextfield(element) {
 
 function displayMessage(id, timestamp, name, text) {
     var div = document.getElementById(id) || createAndInsertMessage(id, timestamp);
-  
+
     div.querySelector('.name').textContent = name;
     var messageElement = div.querySelector('.message');
-  
+
     if (text) { // If the message is text.
-      messageElement.textContent = text;
-      // Replace all line breaks by <br>.
-      messageElement.innerHTML = messageElement.innerHTML.replace(/\n/g, '<br>');
+        messageElement.textContent = text;
+        // Replace all line breaks by <br>.
+        messageElement.innerHTML = messageElement.innerHTML.replace(/\n/g, '<br>');
     }
     // Show the card fading-in and scroll to view the new message.
-    setTimeout(function() {div.classList.add('visible')}, 1);
+    setTimeout(function () { div.classList.add('visible') }, 1);
     messageListElement.scrollTop = messageListElement.scrollHeight;
     messageInputElement.focus();
-  }
+}
 
-  function createAndInsertMessage(id, timestamp) {
+function createAndInsertMessage(id, timestamp) {
     const container = document.createElement('div');
     container.innerHTML = MESSAGE_TEMPLATE;
     const div = container.firstChild;
     div.setAttribute('id', id);
-  
+
     // If timestamp is null, assume we've gotten a brand new message.
     // https://stackoverflow.com/a/47781432/4816918
     timestamp = timestamp ? timestamp.toMillis() : Date.now();
     div.setAttribute('timestamp', timestamp);
-  
+
     // figure out where to insert new message
     const existingMessages = messageListElement.children;
     if (existingMessages.length === 0) {
-      messageListElement.appendChild(div);
+        messageListElement.appendChild(div);
     } else {
-      let messageListNode = existingMessages[0];
-  
-      while (messageListNode) {
-        const messageListNodeTime = messageListNode.getAttribute('timestamp');
-  
-        if (!messageListNodeTime) {
-          throw new Error(
-            `Child ${messageListNode.id} has no 'timestamp' attribute`
-          );
+        let messageListNode = existingMessages[0];
+
+        while (messageListNode) {
+            const messageListNodeTime = messageListNode.getAttribute('timestamp');
+
+            if (!messageListNodeTime) {
+                throw new Error(
+                    `Child ${messageListNode.id} has no 'timestamp' attribute`
+                );
+            }
+
+            if (messageListNodeTime > timestamp) {
+                break;
+            }
+
+            messageListNode = messageListNode.nextSibling;
         }
-  
-        if (messageListNodeTime > timestamp) {
-          break;
-        }
-  
-        messageListNode = messageListNode.nextSibling;
-      }
-  
-      messageListElement.insertBefore(div, messageListNode);
+
+        messageListElement.insertBefore(div, messageListNode);
     }
-  
+
     return div;
-  }
+}
 
 messageFormElement.addEventListener('submit', onMessageFormSubmit);
 messageInputElement.addEventListener('keyup', toggleButton);
