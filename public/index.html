@@ -10,7 +10,8 @@
     <title>Lecture++</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/0.3.18/peer.min.js"></script>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Material Design Lite -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css">
@@ -127,7 +128,58 @@
                 <div id="messages-card"
                     class=" mdl-card mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--6-col-desktop">
                     <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-                        <div id="messages"></div>
+                        <div id="messages">
+                            <!-- <a href="#" class="list-group-item list-group-item-action flex-column align-items-start"
+                                style="border: none;background: transparent;border-bottom: 1px solid lightgray;">
+                                <div class="d-flex w-100 justify-content-between question-item-info">
+
+                                    <h5 class="question-item-author">
+                                        🐪</h5>
+
+                                    <h5 class="question-item-time flex-column">
+                                        <i class="material-icons">
+                                            keyboard_arrow_up
+                                        </i>
+                                        <span class="badge badge-primary badge-pill">+
+                                            14</span>
+                                        <i class="material-icons">
+                                            keyboard_arrow_down
+                                        </i>
+                                    </h5>
+                                </div>
+                                <p class="question-item-body mb-1">Donec id elit non mi porta gravida at eget metus.
+                                    Maecenas sed
+                                    diam
+                                    eget risus varius
+                                    blandit.</p>
+
+                            </a> -->
+                            <a href="#"
+                                style="border: none;background: transparent;border-bottom: 1px solid lightgray;display: flex;align-content: center;justify-content: center;"
+                                class="list-group-item list-group-item-action flex-row align-items-start">
+
+                                <h5 class="question-item-author"
+                                    style="/*! margin: 0; */font-size: 40px;/*! float: left; */margin: 0;margin-right: 8px;display: block;">
+                                    🐪</h5>
+                                <p class="question-item-body mb-1">Donec id elit non mi porta gravida at eget metus.
+                                    Maecenas sed
+                                    diam
+                                    eget risus varius
+                                    blandit.</p>
+
+                                <h5 class="question-item-time flex-column"
+                                    style="margin: auto;justify-content: flex-start;align-content: center;display: flex;">
+                                    <i class="material-icons" style="margin: -16px auto 5px auto;">
+                                        keyboard_arrow_up
+                                    </i>
+                                    <span class="badge badge-primary badge-pill">+
+                                        14</span>
+                                    <i class="material-icons" style="margin: -8px auto 0 auto;">
+                                        keyboard_arrow_down
+                                    </i>
+                                </h5>
+                            </a>
+                        </div>
                         <form id="message-form" action="#">
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                                 <input class="mdl-textfield__input" type="text" id="message" autocomplete="off">

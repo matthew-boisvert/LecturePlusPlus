@@ -14,12 +14,12 @@ const myEmoji = utils.getEmoji(myEmojiNumber);
 var connections = [];
 
 // Template for messages.
-var MESSAGE_TEMPLATE =
-    '<div class="message-container">' +
-    '<div class="spacing"><div class="pic"></div></div>' +
-    '<div class="message"></div>' +
-    '<div class="name"></div>' +
-    '</div>';
+var MESSAGE_TEMPLATE = '<a href="#"style="border: none;background: transparent;border-bottom: 1px solid lightgray;display: flex;align-content: center;justify-content: center;"class="list-group-item list-group-item-action flex-row align-items-start"><h5 class="question-item-author name"style="/*! margin: 0; */font-size: 40px;/*! float: left; */margin: 0;margin-right: 8px;display: block;">🐪</h5><p class="question-item-body mb-1 message">Donec id elit non mi porta gravida at eget metus.Maecenas seddiameget risus variusblandit.</p><h5 class="question-item-time flex-column"style="margin: auto;margin-right: 0;justify-content: flex-start;align-content: center;display: flex;"><i class="material-icons" style="margin: -16px auto 5px auto;">keyboard_arrow_up</i><span class="badge badge-primary badge-pill">+14</span><i class="material-icons" style="margin: -8px auto 0 auto;">keyboard_arrow_down</i></h5></a>'
+// '<div class="message-container">' +
+// '<div class="spacing"><div class="pic"></div></div>' +
+// '<div class="message"></div>' +
+// '<div class="name"></div>' +
+// '</div>';
 
 if (window.location.hash.length > 1) { // check if the url contains a hash
     hashID = window.location.hash.substr(1, window.location.hash.length - 1);
@@ -106,8 +106,8 @@ function startListening(conn) {
         //msgId, timestamp, senderName, message
         //sendMsgAllExceptOne(data, conn);
         // RELAY THE MESSAGE TO THE NEIGHBORS
-        for(var i=0; i<connections.length; i++) {
-            if(connections[i] != conn) {
+        for (var i = 0; i < connections.length; i++) {
+            if (connections[i] != conn) {
                 connections[i].send(data);
             }
         }
@@ -124,17 +124,17 @@ function sendMsgAll(msg) {
 
 // function sendMsgAllExceptOne(msg, conn) {
 //     console.log("connections: ", connections);
-    // displayMessage(Math.random(), 0, myEmoji, msg); //(id, timestamp, name, text)
-    // for (var i = 0; i < connections.length; i++) {
-    //     if(conn != connections[i]) sendMsg(msg, connections[i]);
-    // }
+// displayMessage(Math.random(), 0, myEmoji, msg); //(id, timestamp, name, text)
+// for (var i = 0; i < connections.length; i++) {
+//     if(conn != connections[i]) sendMsg(msg, connections[i]);
+// }
 // }
 
 function relayMessageObject(msgObj, conn) {
     // con is the conneciton object from which msgObj orignated.
-        // displayMessage(Math.random(), 0, myEmoji, msg); //(id, timestamp, name, text)
+    // displayMessage(Math.random(), 0, myEmoji, msg); //(id, timestamp, name, text)
     for (var i = 0; i < connections.length; i++) {
-        if(conn != connections[i]) sendMsg(msg, connections[i]);
+        if (conn != connections[i]) sendMsg(msg, connections[i]);
     }
 }
 
@@ -155,7 +155,7 @@ function sendMsg(msg, conn) {
         var jsonSend = JSON.stringify(toSend);
         // jsonSend = jsonSend.replace(/"/g, '@');
 
-        console.log("I want to send the message: ",jsonSend);
+        console.log("I want to send the message: ", jsonSend);
         conn.send(jsonSend); //TODO uncomment
 
     }
@@ -243,21 +243,21 @@ function createAndInsertMessage(id, timestamp) {
     } else {
         let messageListNode = existingMessages[0];
 
-        while (messageListNode) {
-            const messageListNodeTime = messageListNode.getAttribute('timestamp');
+        // while (messageListNode) {
+        //     const messageListNodeTime = messageListNode.getAttribute('timestamp');
 
-            if (!messageListNodeTime) {
-                throw new Error(
-                    `Child ${messageListNode.id} has no 'timestamp' attribute`
-                );
-            }
+        //     if (!messageListNodeTime) {
+        //         throw new Error(
+        //             `Child ${messageListNode.id} has no 'timestamp' attribute`
+        //         );
+        //     }
 
-            if (messageListNodeTime > timestamp) {
-                break;
-            }
+        //     if (messageListNodeTime > timestamp) {
+        //         break;
+        //     }
 
-            messageListNode = messageListNode.nextSibling;
-        }
+        //     messageListNode = messageListNode.nextSibling;
+        // }
 
         messageListElement.insertBefore(div, messageListNode);
     }
