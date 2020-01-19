@@ -100,8 +100,8 @@ function sendMsg(msg) {
 function initializeQR(peerId) {
 
     betterLog("Peer ID: " + peerId);
-    // const longLink = "https://matthew-boisvert.github.io/CruzHacks/public/index.html#" + peerId;
-    const longLink = "file:///Users/ryananderson/Desktop/cruz_hax/CruzHacks/public/index.html#" + peerId;
+    const longLink = "https://matthew-boisvert.github.io/CruzHacks/public/index.html#" + peerId;
+    // const longLink = "file:///Users/ryananderson/Desktop/cruz_hax/CruzHacks/public/index.html#" + peerId;
 
     new QRCode(document.getElementById("qr_container"),
         longLink);
@@ -110,9 +110,10 @@ function initializeQR(peerId) {
     // shortenLink(longLink, function(shortlink){
     //     $('#my-qr').append("<a href="+shortlink+">Click Here for Test!</a>");
     // });
-    // shortenLink(longLink, function(shortlink){
-    $('#shortlink_container').html("<a href=" + longLink + ">" + longLink + "</a>");
-    // });
+    shortenLink(longLink, function (shortlink) {
+        if (shortlink) $('#shortlink_container').append(shortlink.replace("https://", "") + "</br>");
+        else $('#shortlink_container').append(longLink.replace("https://", "") + "</br>");
+    });
 
 
 
@@ -125,26 +126,32 @@ function betterLog(text1, text2) {
 };
 
 function shortenLink(longLink, callbackFunc) {
-    // Using YQL and JSONP
+    // Using is.gd and JSONP
     $.ajax({
         url: "https://is.gd/create.php",
 
-        // The name of the callback parameter, as specified by the YQL service
+        // The name of the callback parameter, as specified by the is.gd service
         jsonp: "callback",
 
         // Tell jQuery we're expecting JSONP
         dataType: "jsonp",
 
-        // Tell YQL what we want and that we want JSON
+        // Tell is.gd what we want and that we want JSON
         data: {
             url: longLink,
             format: "json"
         },
 
+        timeout: 3000, // sets timeout to 3 seconds
+
         // Work with the response
         success: function (response) {
             //console.log(response.shorturl); // server response
             callbackFunc(response.shorturl);
+        },
+        error: function (err) {
+            console.warn('url shortener error', err)
+            callbackFunc(null)
         }
     });
 }
