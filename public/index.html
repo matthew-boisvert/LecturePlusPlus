@@ -98,6 +98,15 @@
                         Lecture++</h2>
                     <!-- Flat button -->
 
+                    <button id="connect_button"
+                        onclick="document.getElementById('connect_button').style.display = 'none';document.getElementById('close_connect_button').style.display = 'block'; document.getElementById('peer_connect_area').classList.add('visible')"
+                        class="mdl-button mdl-button-outline mdl-js-button mdl-js-ripple-effect mdl-color-text--black">
+                        <i class="material-icons">add</i>Connect A Friend
+                    </button>
+                    <button id="close_connect_button" style="display: none; margin-left: auto;"
+                        onclick="document.getElementById('connect_button').style.display = 'block';document.getElementById('close_connect_button').style.display = 'none'; document.getElementById('peer_connect_area').classList.remove('visible')"
+                        class="mdl-button mdl-button-outline mdl-js-button mdl-js-ripple-effect mdl-color-text--black">
+                        <i class="material-icons">close</i>Close
                 </div>
                 <!--<div id="user-container">
                         <div hidden id="user-pic"></div>
@@ -111,11 +120,9 @@
                     </div>-->
             </div>
         </header>
-
+        <div class="slug-background"></div>
         <main class="mdl-layout__content">
-            <div class="slug-background"></div>
             <div id="messages-card-container" class="mdl-cell mdl-cell--12-col mdl-grid">
-
                 <!-- Messages container -->
                 <div id="messages-card"
                     class="mdl-card mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--6-col-desktop">

@@ -183,10 +183,43 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
+  justify-content: center;
 
+  height: 100%;
   margin: auto;
   padding: 12px;
 }
+
+#connect_button,
+#close_connect_button {
+  visibility: hidden;
+
+  margin-left: auto;
+}
+
+@media (max-width: 900px) {
+  #connect_button,
+  #close_connect_button {
+    display: unset;
+    visibility: unset;
+  }
+  #peer_connect_area {
+    position: fixed;
+    position: fixed;
+    z-index: 10;
+    top: -100vh;
+    right: 0;
+    left: 0;
+
+    transition: top 1s ease;
+
+    background: white;
+  }
+  #peer_connect_area.visible {
+    top: 0;
+  }
+}
+
 #peer_connect_area p {
   margin: 15px;
 
@@ -195,9 +228,6 @@ body {
   font-size: 24px;
 }
 
-#peer_connect_area {
-  height: 324px;
-}
 #peer_connect_area img {
   height: 324px;
 }
@@ -217,11 +247,11 @@ main,
 #messages-card-container {
   height: calc(100% - 35px);
   padding-bottom: 0;
-
-  background-color: #cecece1f;
 }
 #messages-card {
   margin-top: 15px;
+
+  background-color: #cecece1f;
 }
 .mdl-layout__header-row span {
   margin-top: 17px;
