@@ -9,6 +9,9 @@ var initialized = false; // this boolean flag is used so we don't trigger the in
 
 var hashID = null; role = 'prof';
 
+// var conn;
+var connections = [];
+
 // Template for messages.
 var MESSAGE_TEMPLATE =
     '<div class="message-container">' +
@@ -68,40 +71,39 @@ peer.on('open', function (id) {
 // });
 
 
-
-
-
-
-
-
-
-
-
 // if (!initialized) initialize(response.ip);
-var conn;
 
+// Gets triggered when someone tries to CONNECT with another
 function initializeConnection(targetId) {
     console.log("initializeConnection", targetId);
-    conn = peer.connect(targetId);
+    var conn = peer.connect(targetId);
+    connections.push(conn);
     betterLog("connection init", conn)
     // on open will be launch when you successfully connect to PeerServer
     conn.on('open', function () {
         betterLog("sending hi", conn.id)
         // here you have conn.id
-        conn.send('REEEEEE!');
+        // conn.send('REEEEEE!');
+        startListening(conn);
     });
 }
 
-// Message Receiving
+// Gets triggered when someone connects to you.
 peer.on('connection', function (_conn) {
     conn = _conn;
+    console.log("peer on connection", conn);
+    startListening(conn);  
+});
+
+function startListening(conn) {
+    console.log(conn);
     conn.on('data', function (data) {
         // Will print 'hi!'
         // betterLog(data);
-        displayMessage(Math.random(), 0, "banane", data); /////(id, timestamp, name, text)
+        displayMessage(Math.random(), 0, "TODO insert Emoji", data); /////(id, timestamp, name, text)
         console.log("received message ", data); 
     });
-});
+}
 
 function sendMsg(msg) {
     console.log("call sendmsg ", conn);
