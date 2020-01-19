@@ -3,6 +3,7 @@ var messageInputElement = document.getElementById('message');
 var messageFormElement = document.getElementById('message-form');
 var messageListElement = document.getElementById('messages');
 
+const Automerge = require('automerge')
 
 var initialized = false; // this boolean flag is used so we don't trigger the intialize function twice.
 
@@ -10,8 +11,6 @@ var hashID = null; role = 'prof';
 
 // var conn;
 var connections = [];
-
-var changeQueue = [];
 
 // Template for messages.
 var MESSAGE_TEMPLATE =
