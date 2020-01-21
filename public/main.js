@@ -163,7 +163,8 @@ function sendMsg(msg, conn) {
 
 function initializeQR(peerId) {
     // utils.betterLog("Peer ID: " + peerId);
-    const longLink = "https://matthew-boisvert.github.io/CruzHacks/public/index.html#" + peerId;
+    const longLink = "http://lectureplusplus.tech/#"+peerId;
+    // const longLink = "https://matthew-boisvert.github.io/CruzHacks/public/index.html#" + peerId;
     // const longLink = "file:///Users/ryananderson/Desktop/cruz_hax/CruzHacks/public/index.html#" + peerId;
 
     new QRCode(document.getElementById("qr_container"),
